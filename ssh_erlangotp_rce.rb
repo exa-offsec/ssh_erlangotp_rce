@@ -246,7 +246,12 @@ class MetasploitModule < Msf::Exploit::Remote
 
         hex_response = response.unpack('H*').first
         vprint_status("Received response: #{hex_response}")
-        print_good('Payload executed successfully') if hex_response.start_with?('000003')
+
+        if hex_response.start_with?('000003')
+          print_good('Payload executed successfully')
+        else
+          print_error('Payload execution failed')
+        end
       end
     rescue EOFError, Errno::ECONNRESET
       print_error('Payload execution failed')
